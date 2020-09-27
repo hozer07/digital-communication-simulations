@@ -24,9 +24,6 @@ for modulation =1:3            % i=1 --> QPSK, i=2 --> BPSK, i=3 --> BFSK
                 info_bits3 = info_bits2(:);
                 four_sym_seq = conj(qpsk_sym(info_seq+1)');
                 four_sym_seq = four_sym_seq + sqrt(noise_variance).*(randn(seq_len,1)+1i.*randn(seq_len,1));
-                % Noise variance is divided by 2 to make overall noise
-                % variance No/2, in-phase and quadrature components are
-                % added
                 four_sym_seq = repmat(four_sym_seq,[1,4]);
                 norms = abs(four_sym_seq-repmat(qpsk_sym,[seq_len,1]));
                 [~,detected] = min(norms,[],2); % Maximum Likelihood detection rule due to uniformly generated info bits
