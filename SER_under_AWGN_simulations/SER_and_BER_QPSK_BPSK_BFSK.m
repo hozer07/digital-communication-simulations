@@ -4,14 +4,16 @@ sim_lim = 20;           % Minimum number of simulations to average over for a sp
 bpsk_sym = [-1,1];      % Baseband BPSK symbols
 qpsk_sym = pskmod(0:3,4,pi/4); % Baseband QPSK symbols
 qpsk_bits =[0,0;0,1;1,1;1,0];  % Gray coded bits corresponding to each QPSK symbol
-bfsk_sym = [1,1i];             % Baseband BFSK symbols 
-SNR_int = -10:5:10;            % SNR levels
+bfsk_sym = [1,1i];             % Baseband BFSK symbols
+SNR_increment = 5;
+SNR_start = -10;
+SNR_int = SNR_start:SNR_increment:10;            % SNR levels
 errs_store = zeros(3,length(SNR_int),2);     % Placeholder matrix to store errors for each SNR level and modulation scheme
 ber = zeros(length(SNR_int),1);              % Placeholder array to store BER of QPSK
 seq_len = 1e5;                 % Number of generated symbols for each simulation
 for modulation =1:3            % i=1 --> QPSK, i=2 --> BPSK, i=3 --> BFSK
     for snr=SNR_int
-        snr_index = snr/5+3;
+        snr_index = snr/SNR_increment-SNR_start/SNR_increment+1;
         err_check = true;
         if(modulation==1)
             sim_num = 0;
