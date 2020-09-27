@@ -1,1 +1,1 @@
-# digital-communication-simulations
+# Introductory material related to Digital Communication
