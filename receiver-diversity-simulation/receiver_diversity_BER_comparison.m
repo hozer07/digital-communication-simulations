@@ -12,10 +12,10 @@ qpsk_bits =[0,0;0,1;1,1;1,0];               % Gray coded bits for each symbol
 SNR_start = 0;
 SNR_increment = 3;
 SNR_int = SNR_start:SNR_increment:25;
-errs_store = zeros(3,length(SNR_int),2);
-ber_div = zeros(3,length(SNR_int),1);
+errs_store = zeros(4,length(SNR_int),2);
+ber_div = zeros(4,length(SNR_int),1);
 seq_len = 1e5;                              % Number of symbols for each simulation
-for method = 1:3                    
+for method = 1:4                    
     for snr=SNR_int
         snr_index = snr/SNR_increment-SNR_start/SNR_increment+1;
         noise_stdev = sqrt(1/(2*2*10^(snr/10)));
@@ -37,7 +37,9 @@ for method = 1:3
                 [~,indices] = max(abs([four_sym_seq1 four_sym_seq2]),[],2);
                 four_sym_seq = four_sym_seq1.*(indices==1)+four_sym_seq2.*(indices==2);
             elseif(method==2),four_sym_seq=(four_sym_seq1+four_sym_seq2); % Equal gain combining
-            else,four_sym_seq = abs(channel1).*four_sym_seq1+abs(channel2).*four_sym_seq2; % Maximum ratio combining
+            elseif(method==3),four_sym_seq = abs(channel1).*four_sym_seq1+abs(channel2).*four_sym_seq2; % Maximum ratio combining
+            else
+                four_sym_seq = four_sym_seq.*sqrt(0.5).*abs(randn(seq_len,1)+1i.*randn(seq_len,1)) +noise_stdev.*(randn(seq_len,1)+1i.*randn(seq_len,1));
             end
             four_sym_seq = repmat(four_sym_seq,[1,4]);
             norms = abs(four_sym_seq-repmat(qpsk_sym,[seq_len,1]));
@@ -58,15 +60,14 @@ for method = 1:3
 err_store_div = errs_store(:,:,1)./errs_store(:,:,2)./seq_len;
 ber_div = ber_div./errs_store(:,:,2)./seq_len./2;
 EbNo = 10.^(SNR_int./10);
-load no_diversity.mat
-semilogy(SNR_int,err_store,'-*');hold on;grid on;
+semilogy(SNR_int,err_store_div(4,:),'-*');hold on;grid on;
 semilogy(SNR_int,err_store_div(1,:),'-*');hold on;grid on;
 semilogy(SNR_int,err_store_div(2,:),'-x','LineWidth',1.7);
 semilogy(SNR_int,err_store_div(3,:),'-','LineWidth',1.7);legend('No diversity','Selection Diversity',...
     'Equal Gain Combining','Maximal Ratio Combining');xlabel('E_b/N_o');ylabel('SER');title('SER comparison of diversity methods');
 set(gca,'FontSize',10);ylim([1e-5 1]);
 figure,
-semilogy(SNR_int,ber,'-*');hold on;grid on;
+semilogy(SNR_int,ber_div(4,:),'-*');hold on;grid on;
 semilogy(SNR_int,ber_div(1,:),'-*');hold on;grid on;
 semilogy(SNR_int,ber_div(2,:),'-x','LineWidth',1.7);
 semilogy(SNR_int,ber_div(3,:),'-','LineWidth',1.7);legend('No diversity','Selection Diversity',...
