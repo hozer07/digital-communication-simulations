@@ -25,9 +25,9 @@ for average = 1:100 % The number of simulations to average the results
                 b = zeros(system_length+tap_options(tap)-1,1);
                 b(round((system_length+tap_options(tap)-1)/2)) = 1;
                 c = (channel_matrix*channel_matrix'+noise_variance.*eye(size(channel_matrix,1)))\channel_matrix*b;           
-                y_out_ZF = conv(y,c,'same');
-                y_out_ZF = 2.*double(y_out_ZF>0)-1;
-                MMSEsimBer(snr,channel_index,tap) = MMSEsimBer(snr,channel_index,tap)+size(find(y_out_ZF~=infos),2);%Store zero forcing results         
+                y_out_MMSE = conv(y,c,'same');
+                y_out_MMSE = 2.*double(y_out_MMSE>0)-1;
+                MMSEsimBer(snr,channel_index,tap) = MMSEsimBer(snr,channel_index,tap)+size(find(y_out_MMSE~=infos),2);%Store zero forcing results         
             end
         end
     end
