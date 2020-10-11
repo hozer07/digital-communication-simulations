@@ -1,5 +1,5 @@
 % Frequency domain equalization with 1,3,5,10
-% bits long cyclic prefixes for BPSK are simulated in this simulation.
+% bits long cyclic prefixes for BPSK is simulated in this simulation.
 clear;
 clc;
 snr_start = 0;
