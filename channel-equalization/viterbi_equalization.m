@@ -3,7 +3,7 @@
 clear;clc;
 bit_count = 1e3; % Number of bits in the stream for each SNR level
 channel = [0.74 -0.514 0.37 0.216 0.062]; % Impulse response of the channel, it is assumed to be causal.
-number_of_states = 2^(length(channel)-1); % Register has lenght(channel)-1 bits
+number_of_states = 2^(length(channel)-1); % Register has length(channel)-1 bits
 binary_states = (dec2bin(0:number_of_states-1)); % Comment this line in MATLAB
 binary_states = double(binary_states)-48;  % Comment this line in MATLAB
 %binary_states = fliplr(de2bi(0:2^(length(channel)-1)-1)); % Uncomment this line in MATLAB
