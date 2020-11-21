@@ -1,4 +1,4 @@
-% Written in OCTAVE. Lines to comment or uncomment to make the code work in MATLAB is indicated.
+% Written in OCTAVE. Lines to comment or uncomment to make the code work in MATLAB were indicated.
 % Below code implements Soft Decision Viterbi algorithm to equalize any given causal channel.
 clear;clc;
 bit_count = 1e3; % Number of bits in the stream for each SNR level
