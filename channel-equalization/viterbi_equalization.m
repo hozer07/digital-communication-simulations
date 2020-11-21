@@ -32,7 +32,7 @@ for iter = 1:length(SNR_interval)
           for metric_index=1:number_of_states
               index1 = round(metric_index/2);  % 1st possible previous state 
               index2 = index1 + number_of_states/2; % 2nd possible previous state 
-              index3 = mod(metric_index,2); % Possible input
+              index3 = mod(metric_index,2); % Input to reach the state indicated by "metric_index"
               index3(index3 == 0) = 2; 
               alternative_values = [viterbi_metrics(index1)+state_metrics(index1,index3),viterbi_metrics(index2)+state_metrics(index2,index3)];
               [min_val, min_index] = min(alternative_values); % Pick the previous state that results in smaller total distance
